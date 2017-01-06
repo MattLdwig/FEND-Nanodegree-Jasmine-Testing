@@ -18,7 +18,7 @@ $(function() {
     it('have url', function() {
       allFeeds.forEach(function(feed) {
         expect(feed.url).toBeDefined();
-        expect(feed.url).not.toBe(0);
+        expect(feed.url.length).not.toBe(0);
       });
     });
     /* Loop through each feed in the allFeeds
@@ -27,48 +27,45 @@ $(function() {
     it('have name', function() {
       allFeeds.forEach(function(feed) {
         expect(feed.name).toBeDefined();
-        expect(feed.name).not.toBe(0);
+        expect(feed.name.length).not.toBe(0);
       });
     });
   });
   // Second test suite. Sidebar Menu 
   describe('The menu', function() {
-    var body = document.body;
-    var menuIcon = document.querySelector('.menu-icon-link');
+    var body = $('body');
+    var menuIcon = $('.menu-icon-link');
     /* Check if the body has the class .menu-hidden,
      *  meaning that the menu is hidden.
      */
     it('is hidden by default', function() {
-      expect(body.className).toBe('menu-hidden');
-    });;
+      expect(body.hasClass('menu-hidden')).toBe(true);
+    });
     /* Check if the body doesn't have the class .menu-hidden
      *  after a click on the menu icon. Then check if the class
      *  .menu-hidden reappears after a second click on the menu icon.
      */
     it('toggle visibility when the menu icon is clicked', function() {
       menuIcon.click();
-      expect(body.className).not.toBe('menu-hidden');
+      expect(body.hasClass('menu-hidden')).toBe(false);
       menuIcon.click();
-      expect(body.className).toBe('menu-hidden');
+      expect(body.hasClass('menu-hidden')).toBe(true);
     });
   });
   // Third test suite. Initial Entries.
   describe('Initial Entries', function() {
     // Call a function to do an async request
     beforeEach(function(done) {
-      loadFeed(0, function() {
-        done();
-      });
+      loadFeed(0, done); 
     });
     /* Check if the loadFeed function has at least
      *  one .entry element within the .feed container.
      *  
      */
-    it('has at least an entry after loading', function(done) {
+    it('has at least an entry after loading', function() {
       var feed = document.querySelector('.feed'),
         feedEntries = feed.getElementsByClassName('entry');
       expect(feedEntries.length).toBeGreaterThan(0);
-      done();
     });
   });
   // Fourth test suite. News Feeds Loaded.
